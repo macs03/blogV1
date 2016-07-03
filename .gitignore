@@ -90,3 +90,13 @@ ENV/
 
 #idea
 .idea/
+
+# bin
+bin/
+
+# include
+include/
+
+#base de datos
+db.sqlite3
+pip-selfcheck.json
