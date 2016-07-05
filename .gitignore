@@ -100,3 +100,6 @@ include/
 #base de datos
 db.sqlite3
 pip-selfcheck.json
+
+#Migrations
+posts/migrations/
