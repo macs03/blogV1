@@ -1,0 +1,17 @@
+<html>
+<body>
+    <h1>
+        {{ title }} is working!!!
+    </h1>
+    {% for object in object_list %}
+        /posts/id/
+        {% url 'posts:postDetail' id=object.id %}
+        <a href="{{ object.get_absolute_url }}">{{ object.title }}</a> <br>
+            {{ object.content }} <br>
+            {{ object.timestamp }} <br>
+            {{ object.update }} <br>
+            {{ object.id }} <br>
+            {{ object.pk }} <br><br>
+    {% endfor %}
+</body>
+</html>
