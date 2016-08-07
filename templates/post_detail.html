@@ -1,10 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>{{ title }}</title>
-</head>
-<body>
+{% extends "index.html" %}
+
+{% block content %}
+
     <h1>
         {{ title }} is working!!!
     </h1>
@@ -14,5 +11,5 @@
         {{ instance.update }} <br>
         {{ instance.id }} <br>
         {{ instance.pk }} <br><br>
-</body>
-</html>
+
+{% endblock content%}

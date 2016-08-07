@@ -1,17 +1,16 @@
-<html>
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>List Post</title>
+    <link rel="stylesheet" href="{% static "css/base.css" %}">
+</head>
 <body>
-    <h1>
-        {{ title }} is working!!!
-    </h1>
-    {% for object in object_list %}
-        /posts/id/
-        {% url 'posts:postDetail' id=object.id %}
-        <a href="{{ object.get_absolute_url }}">{{ object.title }}</a> <br>
-            {{ object.content }} <br>
-            {{ object.timestamp }} <br>
-            {{ object.update }} <br>
-            {{ object.id }} <br>
-            {{ object.pk }} <br><br>
-    {% endfor %}
+    <div class="container">
+        {% block content %}
+        
+        {% endblock content%}
+    </div>
 </body>
 </html>

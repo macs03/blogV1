@@ -1,0 +1,35 @@
+{% extends "index.html" %}
+
+{% block content %}
+
+    <h1>
+        {{ title }} is working!!!
+    </h1>
+    {% for object in object_list %}
+        /posts/id/
+        {% url 'posts:postDetail' id=object.id %}
+        <a href="{{ object.get_absolute_url }}">{{ object.title }}</a> <br>
+            {{ object.content }} <br>
+            hace {{ object.timestamp | timesince }} <br>
+            hace {{ object.update | timesince }} <br>
+            {{ object.id }} <br>
+            {{ object.pk }} <br><br>
+    {% endfor %}
+
+    <div class="pagination">
+        <span class="step-links">
+            {% if object_list.has_previous %}
+                <a href="?page={{ object_list.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+            </span>
+
+            {% if object_list.has_next %}
+                <a href="?page={{ object_list.next_page_number }}">next</a>
+            {% endif %}
+        </span>
+    </div>
+
+{% endblock content %}
