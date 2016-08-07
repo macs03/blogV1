@@ -90,4 +90,19 @@ STATICFILES_DIRS = [
 
 STATIC_ROOT = os.path.join(os.path.join(os.path.dirname(BASE_DIR), "static_cdn"))
 
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(os.path.join(os.path.dirname(BASE_DIR), "media_cdn"))
+
 TEMPLATE_DIRS = (os.path.join(BASE_DIR,  'templates'),)
+
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': [],
+#         'APP_DIRS': True,
+#         'OPTIONS': {
+#             # ... some options here ...
+#         },
+#     },
+# ]

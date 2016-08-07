@@ -1,23 +1,34 @@
+from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404
+from django.db.models import Q
+from django.http import HttpResponse, Http404, HttpResponseRedirect
+from django.shortcuts import render, get_object_or_404, redirect
 
 # Create your views here.
 from .forms import PostForm
 from .models import Post
 
 def post_create(request):
-    form = PostForm(request.POST or None)
+    if not request.user.is_staff or not  request.user.is_superuser:
+        raise Http404
+
+    form = PostForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         instance = form.save(commit=False)
-        print form.cleaned_data.get("title")
+        instance.user = request.user
+        # print form.cleaned_data.get("title")
         instance.save()
+        messages.success(request, "Creado exitosamente")
+        return HttpResponseRedirect(instance.get_absolute_url())
+    else:
+        messages.error(request,"No se ha creado el post")
     # if request.method == "POST":
     #     content = request.POST.get("content")
     #     title = request.POST.get("title")
     #     Post.objects.create(title=title,content=content)
     context = {
         "form" : form,
+        "action": "Create",
     }
     return render(request, "post_form.html", context)
     # return HttpResponse("<h1>Create </h1>")
@@ -33,6 +44,17 @@ def post_detail(request,id=None):
 
 def post_list(request):
     queryset_list = Post.objects.all()
+
+    query = request.GET.get("q")
+
+    if query:
+        queryset_list = queryset_list.filter(
+            Q(title__icontains=query)|
+            Q(content__icontains=query)|
+            Q(user__first_name__icontains=query)|
+            Q(user__last_name__icontains=query)
+        ).distinct()
+
     paginator = Paginator(queryset_list, 10)  # Show 25 contacts per page
 
     page = request.GET.get('page')
@@ -58,10 +80,28 @@ def post_list(request):
     #     }
     return render(request, "post_list.html", context)
 
-def post_update(request):
+def post_update(request, id=None):
+    instance = get_object_or_404(Post, id=id)
+    form = PostForm(request.POST or None, request.FILES or None, instance=instance)
+    if form.is_valid():
+        instance = form.save(commit=False)
+        instance.user = request.user
+        # print form.cleaned_data.get("title")
+        instance.save()
+        messages.success(request, "Modificado exitosamente")
+        return HttpResponseRedirect(instance.get_absolute_url())
+    else:
+        messages.error(request, "No se ha Modificado el post")
+    context = {
+        "title": instance.title,
+        "instance": instance,
+        "action": "Edit",
+        "form": form
+    }
+    return render(request, "post_form.html",context)
 
-    return HttpResponse("<h1>Update </h1>")
-
-def post_delete(request):
-
-    return HttpResponse("<h1>Delete </h1>")
+def post_delete(request, id=None):
+    instance = get_object_or_404(Post, id=id)
+    instance.delete()
+    messages.success(request, "Borrado exitosamente")
+    return redirect("posts:postList")

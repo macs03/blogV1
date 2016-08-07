@@ -5,9 +5,17 @@
     <h1>
         {{ title }} is working!!!
     </h1>
+    <form action="" method="get">
+        <input type="text" name="q" placeholder="Buscar Post" value="{{ request.GET.q }}" />
+        <input type="submit" value="Buscar">
+    </form>
+    <br>
     {% for object in object_list %}
         /posts/id/
         {% url 'posts:postDetail' id=object.id %}
+        {% if object.image %}
+            <img src="{{ object.image.url }}" alt="" width="150" height="150">
+        {% endif %}
         <a href="{{ object.get_absolute_url }}">{{ object.title }}</a> <br>
             {{ object.content }} <br>
             hace {{ object.timestamp | timesince }} <br>

@@ -7,10 +7,10 @@ from .views import (
     post_delete
 )
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'^$', post_list, name='postList'),
     url(r'^create/$', post_create, name='postCreate'),
     url(r'^(?P<id>\d+)/$', post_detail, name='postDetail'),
-    url(r'^update/$', post_update, name='postUpdate'),
-    url(r'^delete/$', post_delete, name='postDelete'),
-)
+    url(r'^(?P<id>\d+)/edit/$', post_update, name='postUpdate'),
+    url(r'^(?P<id>\d+)/delete/$', post_delete, name='postDelete'),
+]

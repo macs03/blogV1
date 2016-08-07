@@ -2,9 +2,20 @@
 
 {% block content %}
 
+    {% if messages %}
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}{% endif %}>{{ message }}</li>
+        {% endfor %}
+
+    {% endif %}
+
+    {% if instance.image %}
+    <img src="{{ instance.image.url }}" alt="" width="150" height="150">
+    {% endif %}
     <h1>
-        {{ title }} is working!!!
+        {{ title }}
     </h1>
+    <span>Author: {{ instance.user }}</span> <br>
         {{ instance.title }} <br>
         {{ instance.content }} <br>
         {{ instance.timestamp }} <br>
